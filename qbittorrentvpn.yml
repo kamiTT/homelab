@@ -1,0 +1,27 @@
+---
+version: "2"
+services:
+  qbittorrentvpn:
+    image: markusmcnugen/qbittorrentvpn
+    container_name: qbittorrentvpn
+    privileged: true
+    environment:
+      - VPN_USERNAME=${MULLVAD_USERNAME}
+      - VPN_PASSWORD=${MULLVAD_PASSWORD}
+      - PUID=${PUID} #optional
+      - PGID=${PGID} #optional
+      - WEBUI_PORT_ENV=8080 #optional
+      - INCOMING_PORT_ENV=8999 #optional
+      - VPN_ENABLED=yes
+      - LAN_NETWORK=192.168.0.1/24
+      - NAME_SERVERS=8.8.8.8,8.8.4.4
+    ports:
+      - 8080:8080
+      - 8999:8999
+      - 8999:8999/udp
+    volumes:
+      - /${BASE_PATH}/docker/qbittorrentvpn/config:/config
+      - /${BASE_PATH}/docker/qbittorrentvpn/downloads:/downloads
+    sysctls:
+            - "net.ipv6.conf.all.disable_ipv6=0"
+    restart: unless-stopped
