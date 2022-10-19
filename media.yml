@@ -1,0 +1,74 @@
+---
+version: "2.1"
+services:
+  qbittorrentvpn:
+    image: markusmcnugen/qbittorrentvpn
+    container_name: qbittorrentvpn
+    restart: unless-stopped
+    # privileged: true
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun
+    environment:
+      - VPN_USERNAME=${MULLVAD_USERNAME}
+      - VPN_PASSWORD=${MULLVAD_PASSWORD}
+      - PUID=${PUID} #optional
+      - PGID=${PGID} #optional
+      - WEBUI_PORT_ENV=8080 #optional
+      - INCOMING_PORT_ENV=8999 #optional
+      - VPN_ENABLED=yes
+      - LAN_NETWORK=192.168.4.1/24
+      - NAME_SERVERS=8.8.8.8,8.8.4.4
+    ports:
+      - 8080:8080 # qbittorrentvpn UI
+      - 8999:8999 # qbittorrentvpn incoming
+
+    volumes:
+      - /${BASE_PATH}/docker/qbittorrentvpn/config:/config
+      - /${BASE_PATH}/media/video/downloads/qbittorrentvpn:/downloads
+      - /${BASE_PATH}/media/video:/video
+    sysctls:
+      - "net.ipv6.conf.all.disable_ipv6=0"
+
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:develop
+    container_name: prowlarr
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    ports:
+      - 9696:9696
+    volumes:
+      - /${BASE_PATH}/docker/prowlarr/config:/config
+
+  radarr:
+    image: lscr.io/linuxserver/radarr
+    container_name: radarr
+    restart: unless-stopped
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    ports:
+      - 7878:7878
+    volumes:
+      - /${BASE_PATH}/docker/radarr/config:/data/config
+      - /${BASE_PATH}/media/video/Plex:/media #optional
+      - /${BASE_PATH}/media/video/downloads/qbittorrentvpn:/downloads
+
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+    restart: unless-stopped
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    ports:
+      - 8989:8989
+    volumes:
+      - /${BASE_PATH}/docker/sonarr/config:/data/config
+      - /${BASE_PATH}/media/video/Plex:/data/media #optional
+      - /${BASE_PATH}/media/video/downloads/qbittorrentvpn:/downloads #optional
