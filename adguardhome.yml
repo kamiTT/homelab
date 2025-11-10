@@ -1,0 +1,14 @@
+name: adguardhome
+services:
+  adguardhome:
+    container_name: adguardhome
+    image: adguard/adguardhome
+    ports:
+      - 53:53/tcp
+      - 53:53/udp
+      - 80:80/tcp
+      - 3000:3000/tcp # initial setup web interface
+    volumes:
+      - /${BASE_PATH}/docker/adguardhome/conf:/opt/adguardhome/conf:rw # app configuration
+      - /${BASE_PATH}/docker/adguardhome/work:/opt/adguardhome/work:rw # app working directory
+    restart: unless-stopped
