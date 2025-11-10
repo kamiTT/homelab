@@ -1,0 +1,21 @@
+---
+services:
+  calibre:
+    image: lscr.io/linuxserver/calibre:8.6.0
+    container_name: calibre
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=America/New_York
+      - CUSTOM_USER=${USER}
+      - PASSWORD=${PASSWORD}
+    volumes:
+      - /${APPS_PATH}/calibre-new:/config
+      - /${BASE_PATH}/media/books/calibre:/books
+      - /${BASE_PATH}/media/books/processing:/processing
+    ports:
+      - 32015:8080
+      - 32016:8181
+      - 32018:8081
+      - 32030:9090
+    restart: unless-stopped

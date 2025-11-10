@@ -1,0 +1,20 @@
+---
+version: "3.3"
+services:
+  komga:
+    image: gotson/komga
+    container_name: komga
+    volumes:
+      - type: bind
+        source: /${APPS_PATH}/docker/komga
+        target: /config
+      - type: bind
+        source: /${BASE_PATH}/entertainment/Comics
+        target: /data
+    ports:
+      - 30048:25600
+    user: ${PUID}:${PGID}
+    # remove the whole environment section if you don't need it
+    environment:
+      - TZ=${TZ}
+    restart: unless-stopped

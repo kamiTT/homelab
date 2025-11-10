@@ -1,15 +1,18 @@
-version: '3'
+version: "3"
 services:
   jdownloader-2:
     image: jlesage/jdownloader-2
+    container_name: jdownloader2
     environment:
       - USER_ID=${PUID}
       - GROUP_ID=${PGID}
       - TZ=${TZ}
-      # - SECURE_CONNECTION=1
+      - MYJDOWNLOADER_EMAIL=${MYJDOWNLOADER_EMAIL}
+      - MYJDOWNLOADER_PASSWORD=${MYJDOWNLOADER_PASSWORD}
+      - MYJDOWNLOADER_DEVICE_NAME=${MYJDOWNLOADER_DEVICE_NAME}
     ports:
       - "5800:5800"
     volumes:
-      - /${BASE_PATH}/docker/jdownloader2/config:/config:rw
-      - /${BASE_PATH}/media/video/downloads/jdownloader2:/output:rw
+      - /mnt/apps/applications/jdownloader2/config:/config:rw
+      - /${BASE_PATH}/media/downloads/jdownloader2:/output:rw
     restart: unless-stopped

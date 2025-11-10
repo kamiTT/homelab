@@ -1,0 +1,51 @@
+services:
+  gluetun:
+    image: qmcgaw/gluetun
+    container_name: gluetun
+    network_mode: bridge
+    labels:
+      - com.centurylinklabs.watchtower.enable=false
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    ports:
+      - 22035:22035 # HTTP proxy
+      - 22035:22035/udp # HTTP proxy
+      - 9900:9900 # port for qbittorrent
+    environment:
+      - VPN_SERVICE_PROVIDER=protonvpn
+      - VPN_TYPE=openvpn
+      - OPENVPN_USER=${OPENVPN_USER}
+      - OPENVPN_PASSWORD=${OPENVPN_PASSWORD}
+      - SERVER_HOSTNAMES=${HOSTS}
+      - PORT_FORWARD_ONLY=true
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}d
+      - VPN_PORT_FORWARDING=on
+      - VPN_PORT_FORWARDING_UP_COMMAND=/bin/sh -c 'wget -O- --retry-connrefused --post-data "json={\"listen_port\":{{PORTS}}}" http://127.0.0.1:9900/api/v2/app/setPreferences 2>&1'
+      - SHADOWSOCKS=off
+    restart: unless-stopped
+    volumes:
+      - /${APPS_PATH}/gluetun:/config
+    # command: update -enduser -providers protonvpn
+  qbittorrentvpn:
+    image: linuxserver/qbittorrent:5.1.2
+    container_name: qbittorrentvpn
+    restart: unless-stopped
+    environment:
+      - PUID=${PUID} #optional
+      - PGID=${PGID} #optional
+      - WEBUI_PORT=9900 #optional
+    volumes:
+      - /${APPS_PATH}/qbittorrentvpn:/config
+      - /${BASE_PATH}/media/downloads/qbittorrentvpn:/downloads
+      - /${BASE_PATH}/media:/media
+
+    network_mode: "service:gluetun" # run on the vpn network
+    command: exec curl -s -c ./mam.cookies -b ./mam.cookies https://t.myanonamouse.net/json/dynamicSeedbox.php
+
+    depends_on:
+      gluetun:
+        condition: service_healthy

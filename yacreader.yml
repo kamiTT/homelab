@@ -1,0 +1,17 @@
+---
+services:
+  yacreaderlibraryserver:
+    container_name: YACReaderLibraryServer
+    image: yacreader/yacreaderlibraryserver:latest
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - /mnt/apps/applications/yacreader/config:/config
+      - /${BASE_PATH}/entertainment/Comics/comics:/comics
+      - /${BASE_PATH}/entertainment/Comics/BL:/BL
+      - /${BASE_PATH}/entertainment/Comics/uncensored:/uncensored
+    ports:
+      - 8800:8080
+    restart: unless-stopped
