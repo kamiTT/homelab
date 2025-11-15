@@ -13,6 +13,6 @@ services:
     ports:
       - "5800:5800"
     volumes:
-      - /mnt/apps/applications/jdownloader2/config:/config:rw
+      - /${BASE_PATH}/jdownloader2/config:/config:rw
       - /${BASE_PATH}/media/downloads/jdownloader2:/output:rw
     restart: unless-stopped
