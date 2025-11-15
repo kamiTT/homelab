@@ -8,7 +8,7 @@ services:
       - PGID=${PGID}
       - TZ=${TZ}
     volumes:
-      - /mnt/apps/applications/yacreader/config:/config
+      - /${APPS_PATH}/yacreader/config:/config
       - /${BASE_PATH}/entertainment/Comics/comics:/comics
       - /${BASE_PATH}/entertainment/Comics/BL:/BL
       - /${BASE_PATH}/entertainment/Comics/uncensored:/uncensored
