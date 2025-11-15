@@ -1,7 +1,7 @@
 ---
 services:
   calibre:
-    image: lscr.io/linuxserver/calibre:8.6.0
+    image: lscr.io/linuxserver/calibre:8.6.0 # Version stickied because newer versions break the UI on my box
     container_name: calibre
     environment:
       - PUID=${PUID}
