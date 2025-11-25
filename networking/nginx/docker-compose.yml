@@ -1,7 +1,13 @@
+networks:
+  net:
+    driver: 'bridge'
+
 services:
-  app:
+  # Nginx Proxy Manager
+  npm:
     image: "jc21/nginx-proxy-manager:latest"
     restart: unless-stopped
+    container_name: npm
 
     ports:
       # These ports are in format <host-port>:<container-port>
@@ -10,12 +16,16 @@ services:
       - 30020:81 # Admin Web Port
       # Add any other Stream port you want to expose
       # - '21:21' # FTP
-
+    networks:
+      net:
+        aliases:
+          - 'auth.ianto.org'
     environment:
       - TZ=America/New_York
       - DISABLE_IPV6=true
       - USER_ID=${PUID}
       - GROUP_ID=${PGID}
+      - DOCKER_MODS=linuxserver/mods:nginx-proxy-confs
       # Uncomment this if you want to change the location of
       # the SQLite DB file within the container
       # DB_SQLITE_FILE: "/data/database.sqlite"
@@ -23,5 +33,6 @@ services:
       # Uncomment this if IPv6 is not enabled on your host
 
     volumes:
-      - /${APPS_PATH}/data:/data
-      - /${APPS_PATH}/letsencrypt:/etc/letsencrypt
+      - /${APPS_PATH}/nginx/data:/data
+      - /${APPS_PATH}/nginx/letsencrypt:/etc/letsencrypt
+      - /${APPS_PATH}/nginx/snippets:/snippets
