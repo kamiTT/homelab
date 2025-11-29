@@ -23,6 +23,8 @@ services:
       - IGDB_CLIENT_ID=${IGDB_CLIENT_ID}
       - IGDB_CLIENT_SECRET=${IGDB_CLIENT_SECRET}
       - HASHEOUS_API_ENABLED=true # https://docs.romm.app/latest/Getting-Started/Metadata-Providers/#hasheous
+    
+    user: ${PUID}:${PGID}
     volumes:
       - romm_resources:/romm/resources # Resources fetched from IGDB (covers, screenshots, etc.)
       - romm_redis_data:/redis-data # Cached data for background tasks
