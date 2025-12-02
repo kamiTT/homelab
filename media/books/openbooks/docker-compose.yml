@@ -1,0 +1,14 @@
+version: "3"
+services:
+  openbooks:
+    container_name: openbooks
+    image: evanbuss/openbooks:4.5.0
+    restart: unless-stopped
+    ports:
+      - 30801:80
+    volumes:
+      - "/${BASE_PATH}/openbooks:/books"
+    command: "./openbooks server --dir /books --port 80 --persist --name ${OPENBOOKS_IRC_USERNAME}"
+    environment:
+      - BASE_PATH=/openbooks/
+      
