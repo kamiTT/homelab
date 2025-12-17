@@ -1,7 +1,7 @@
 version: '3'  
 services:  
  kiwix-serve:  
-   image: ghcr.io/kiwix/kiwix-serve:latest
+   image: ghcr.io/kiwix/kiwix-serve:3.8.1
    container_name: kiwix  
    user: ${PUID}:${PGID}
    volumes:  
