@@ -1,0 +1,19 @@
+services:
+  navidrome:
+    image: deluan/navidrome:latest
+    user: ${UID}:${GID} # should be owner of volumes
+    ports:
+      - "34533:4533"
+    restart: unless-stopped
+    environment:
+      - ND_LOGLEVEL=info
+      - ND_JUKEBOX_ENABLED=true
+      - TZ=America/New_York
+      - ND_COVERJPEGQUALITY=100
+      - ND_LASTFM_ENABLED=true
+      - ND_LASTFM_APIKEY=${ND_LASTFM_APIKEY}
+      - ND_LASTFM_SECRET=${ND_LASTFM_SECRET}
+    volumes:
+      - /${BASE_PATH}/media/music/flac:/music:ro
+      - /${BASE_PATH}/media/music/lossy:/lossy:ro
+      - /${APPS_PATH}/navidrome/config/:/data
