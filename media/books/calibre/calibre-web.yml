@@ -1,7 +1,7 @@
 ---
 services:
-  calibre-web-automated:
-    image: lscr.io/linuxserver/calibre-web:0.6.27-ls398
+  calibre-web:
+    image: lscr.io/linuxserver/calibre-web:0.6.27-ls400
     container_name: calibre-web
     environment:
       - PUID=${PUID}
