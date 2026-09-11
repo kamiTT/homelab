@@ -2,7 +2,7 @@
 services:
   yacreaderlibraryserver:
     container_name: YACReaderLibraryServer
-    image: yacreader/yacreaderlibraryserver:latest
+    image: yacreader/yacreaderlibraryserver:10.3.0
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
