@@ -3,20 +3,21 @@
 ### Upstream DNS servers
 
 #### \# Quad9
+[Docs](https://docs.quad9.net/services/)
+
     tls://9.9.9.9
     tls://149.112.112.112
     https://dns.quad9.net/dns-query
     tls://dns.quad9.net
 
 #### \# Cloudfare
+[Docs](https://developers.cloudflare.com/1.1.1.1/ip-addresses/)
+
     tls://1.1.1.1
     tls://1.0.0.1
     https://dns.cloudflare.com/dns-query
     https://cloudflare-dns.com/dns-query
     tls://1dot1dot1dot1.cloudflare-dns.com
-
-#### \# Mullvad
-    https://dns.mullvad.net/dns-query
 
 ### Fallback DNS servers
     1.1.1.1
@@ -28,7 +29,6 @@
     9.9.9.10
     149.112.112.10
     149.112.112.112
-    194.242.2.2
     1.1.1.1
     1.0.0.1
 
@@ -53,5 +53,7 @@
 
 ### Custom Rules
     ||tadata.crushblocks.com^$important
-    ||mesu.g.aaplimg.com^$important
+    ||gt2.crushblocks.com^$important
     ||gspe79-cdn.g.aaplimg.com^$important
+    ||news-edge.fe2.apple-dns.net^$important
+    @@||moonflowergem.carrd.co^
