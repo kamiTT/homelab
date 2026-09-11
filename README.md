@@ -2,4 +2,4 @@
 
 My homelab documentation
 
-![Network Diagram](network-diagram.png)
+![Network Diagram](assets/images/network-diagram.png)
