@@ -1,6 +1,7 @@
 version: "2"
 services:
   rss-bridge:
+    container_name: rssbridge
     image: rssbridge/rss-bridge:latest
     volumes:
       - /${APPS_PATH}/rssbridge:/config

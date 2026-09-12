@@ -9,7 +9,8 @@ services:
       - TZ=America/New_York
     volumes:
       - /${APPS_PATH}/calibre-web-automated:/config
-      - /${BASE_PATH}/media/books/calibre:/calibre-library
+      - /${BASE_PATH}/media/books/calibre/Calibre Library:/calibre-library
+
       # - /${BASE_PATH}/media/books/processing:/cwa-book-ingest
     ports:
       - 31067:8083

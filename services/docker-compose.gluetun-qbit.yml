@@ -3,8 +3,6 @@ services:
     image: qmcgaw/gluetun
     container_name: gluetun
     network_mode: bridge
-    labels:
-      - com.centurylinklabs.watchtower.enable=false
     cap_add:
       - NET_ADMIN
     devices:
@@ -14,6 +12,7 @@ services:
       - 22035:22035/udp # HTTP proxy
       - 9900:9900 # port for qbittorrent
     environment:
+      - BLOCK_MALICIOUS=off
       - VPN_SERVICE_PROVIDER=protonvpn
       - VPN_TYPE=openvpn
       - OPENVPN_USER=${OPENVPN_USER}
@@ -31,13 +30,19 @@ services:
       - /${APPS_PATH}/gluetun:/config
     # command: update -enduser -providers protonvpn
   qbittorrentvpn:
-    image: linuxserver/qbittorrent:5.1.2
+    image: linuxserver/qbittorrent:5.1.4
     container_name: qbittorrentvpn
     restart: unless-stopped
     environment:
       - PUID=${PUID} #optional
       - PGID=${PGID} #optional
       - WEBUI_PORT=9900 #optional
+
+    # ─── Performance Optimization ──────────────────────────────────────
+    ulimits:
+      nofile:
+        soft: 32768
+        hard: 65536  # Increases allowed open files (important for high-speed torrenting)
     volumes:
       - /${APPS_PATH}/qbittorrentvpn:/config
       - /${BASE_PATH}/media/downloads/qbittorrentvpn:/downloads
