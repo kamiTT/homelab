@@ -1,0 +1,12 @@
+version: '3'  
+services:  
+ kiwix-serve:  
+   image: ghcr.io/kiwix/kiwix-serve:3.8.1
+   container_name: kiwix  
+   user: 5000:950
+   volumes:  
+     - /${BASE_PATH}/documents/kiwix:/data  
+   ports:  
+     - '8282:8080'   
+   command:  
+     "*.zim"   # to include all .zim-files in the mounted directory

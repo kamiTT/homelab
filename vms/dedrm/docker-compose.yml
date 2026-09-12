@@ -1,0 +1,44 @@
+services:
+  dedrm:
+    image: xmoforf/windows:latest
+    container_name: dedrm-20780
+    ports:
+      - 8006:8006     # Web VNC port
+      - 3389:3389/tcp # Microsoft remote desktop
+      - 3389:3389/udp
+    environment:
+      - SECRET=${SECRET}
+    devices:
+      - /dev/kvm
+      - /dev/net/tun
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - windows-dedrm-20780:/storage # internal storage
+      - ./shared:/shared             # shared storage
+    restart: unless-stopped
+    stop_grace_period: 2m
+
+  dedrm2:
+    image: xmoforf/windows:latest
+    container_name: dedrm-20781
+    ports:
+      - 8007:8006     # Web VNC port
+      - 3380:3389/tcp # Microsoft remote desktop
+      - 3380:3389/udp
+    environment:
+      - SECRET=${SECRET}
+    devices:
+      - /dev/kvm
+      - /dev/net/tun
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - windows-dedrm-20781:/storage # internal storage
+      - ./shared:/shared             # shared storage
+    restart: unless-stopped
+    stop_grace_period: 2m
+
+volumes:
+    windows-dedrm-20780:
+    windows-dedrm-20781:
