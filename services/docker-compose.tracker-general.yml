@@ -1,0 +1,30 @@
+services:
+  qbittorrentvpn:
+    image: binhex/arch-qbittorrentvpn:5.2
+    container_name: qbittorrentvpn-${TRACKER_NAME}
+    cap_add:
+      - NET_ADMIN
+    ports:
+    # Change ports for each additional instance
+      - "${WEBUI_PORT}:${WEBUI_PORT}"
+      - "22035:22035"
+      - "22035:22035/udp"
+    volumes:
+      - /${APPS_PATH}/qbittorrentvpn/${TRACKER_NAME}:/config
+      - /${BASE_PATH}/media/downloads/qbittorrentvpn:/downloads
+      - /${BASE_PATH}/media:/media
+    environment:
+      - VPN_ENABLED=yes
+      - VPN_USER=${VPN_USER}
+      - VPN_PASS=${VPN_PASS}
+      - VPN_PROV=protonvpn
+      - VPN_CLIENT=openvpn
+      - STRICT_PORT_FORWARD=yes
+      - ENABLE_SOCKS=no
+      - LAN_NETWORK=192.168.5.0/24
+      - NAME_SERVERS=1.1.1.1,1.0.0.1
+      - DEBUG=true
+      - WEBUI_PORT=${WEBUI_PORT}
+      - PUID=${PUID}
+      - PGID=${PGID}
+    restart: unless-stopped

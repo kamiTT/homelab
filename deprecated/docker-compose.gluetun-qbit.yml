@@ -54,3 +54,9 @@ services:
     depends_on:
       gluetun:
         condition: service_healthy
+
+# This stack was deprecated because I couldn't keep the gluetun network in sync the qbit.
+# Whenever the gluetun service became changed ports (which it frequently did) it became unhealthy 
+# was unable to update the qbit instance so my instance was un-connectable. I would then be forced to restart. 
+# However, that wasn't a good solution because for some reason the qbit instance also didn't properly keep track
+# of torrents, so I had to force recheck every torrent on startup, which would take hours. 
